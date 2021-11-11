@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/CyballRegister/static/css/main.dfd828f2.chunk.css",
+    "main.js": "/CyballRegister/static/js/main.ebd2a468.chunk.js",
+    "main.js.map": "/CyballRegister/static/js/main.ebd2a468.chunk.js.map",
+    "runtime-main.js": "/CyballRegister/static/js/runtime-main.f2fd619c.js",
+    "runtime-main.js.map": "/CyballRegister/static/js/runtime-main.f2fd619c.js.map",
+    "static/css/2.58a45539.chunk.css": "/CyballRegister/static/css/2.58a45539.chunk.css",
+    "static/js/2.c2d889d1.chunk.js": "/CyballRegister/static/js/2.c2d889d1.chunk.js",
+    "static/js/2.c2d889d1.chunk.js.map": "/CyballRegister/static/js/2.c2d889d1.chunk.js.map",
+    "index.html": "/CyballRegister/index.html",
+    "static/css/2.58a45539.chunk.css.map": "/CyballRegister/static/css/2.58a45539.chunk.css.map",
+    "static/css/main.dfd828f2.chunk.css.map": "/CyballRegister/static/css/main.dfd828f2.chunk.css.map",
+    "static/js/2.c2d889d1.chunk.js.LICENSE.txt": "/CyballRegister/static/js/2.c2d889d1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f2fd619c.js",
+    "static/css/2.58a45539.chunk.css",
+    "static/js/2.c2d889d1.chunk.js",
+    "static/css/main.dfd828f2.chunk.css",
+    "static/js/main.ebd2a468.chunk.js"
+  ]
+}
