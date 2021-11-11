@@ -9,13 +9,17 @@ import { ConnectorNames } from 'utils/web3React'
 import useWeb3 from 'utils/useWeb3'
 import { useState } from 'react'
 import LoaderIcon from 'LoaderIcon'
+import backgroundCountDown from 'assets/images/background_countdown.png'
+import loginButtonBackground from 'assets/images/login-button-background.png'
+import loginButtonHover from 'assets/images/login-button-background-hover.png'
+import loginModalImage from 'assets/images/login-modal.png'
 
 const LoginWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-image: url('/images/background_countdown.png');
+  background-image: url(${backgroundCountDown});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -32,7 +36,7 @@ const LoginButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-image: url('/images/login-button-background.png');
+  background-image: url('${loginButtonBackground}');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -47,7 +51,7 @@ const LoginButton = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-image: url('/images/login-button-background-hover.png');
+    background-image: url(${loginButtonHover});
   }
 
   &:active {
@@ -68,7 +72,7 @@ const LoginModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('/images/login-modal.png');
+  background-image: url(${loginModalImage});
   background-repeat: no-repeat;
   background-size: contain;
   justify-content: center;
