@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/CyBallRegister/static/css/main.dfd828f2.chunk.css",
-    "main.js": "/CyBallRegister/static/js/main.ebd2a468.chunk.js",
-    "main.js.map": "/CyBallRegister/static/js/main.ebd2a468.chunk.js.map",
-    "runtime-main.js": "/CyBallRegister/static/js/runtime-main.af69be62.js",
-    "runtime-main.js.map": "/CyBallRegister/static/js/runtime-main.af69be62.js.map",
-    "static/css/2.58a45539.chunk.css": "/CyBallRegister/static/css/2.58a45539.chunk.css",
-    "static/js/2.84d6b6e4.chunk.js": "/CyBallRegister/static/js/2.84d6b6e4.chunk.js",
-    "static/js/2.84d6b6e4.chunk.js.map": "/CyBallRegister/static/js/2.84d6b6e4.chunk.js.map",
-    "index.html": "/CyBallRegister/index.html",
-    "static/css/2.58a45539.chunk.css.map": "/CyBallRegister/static/css/2.58a45539.chunk.css.map",
-    "static/css/main.dfd828f2.chunk.css.map": "/CyBallRegister/static/css/main.dfd828f2.chunk.css.map",
-    "static/js/2.84d6b6e4.chunk.js.LICENSE.txt": "/CyBallRegister/static/js/2.84d6b6e4.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.0530d2e2.chunk.css",
+    "main.js": "/static/js/main.a1259582.chunk.js",
+    "main.js.map": "/static/js/main.a1259582.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.e90825a4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.e90825a4.js.map",
+    "static/css/2.f4c56af9.chunk.css": "/static/css/2.f4c56af9.chunk.css",
+    "static/js/2.b46f1780.chunk.js": "/static/js/2.b46f1780.chunk.js",
+    "static/js/2.b46f1780.chunk.js.map": "/static/js/2.b46f1780.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.f4c56af9.chunk.css.map": "/static/css/2.f4c56af9.chunk.css.map",
+    "static/css/main.0530d2e2.chunk.css.map": "/static/css/main.0530d2e2.chunk.css.map",
+    "static/js/2.b46f1780.chunk.js.LICENSE.txt": "/static/js/2.b46f1780.chunk.js.LICENSE.txt",
+    "static/media/background_countdown.d0df1d9b.png": "/static/media/background_countdown.d0df1d9b.png",
+    "static/media/login-modal.406984c4.png": "/static/media/login-modal.406984c4.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.af69be62.js",
-    "static/css/2.58a45539.chunk.css",
-    "static/js/2.84d6b6e4.chunk.js",
-    "static/css/main.dfd828f2.chunk.css",
-    "static/js/main.ebd2a468.chunk.js"
+    "static/js/runtime-main.e90825a4.js",
+    "static/css/2.f4c56af9.chunk.css",
+    "static/js/2.b46f1780.chunk.js",
+    "static/css/main.0530d2e2.chunk.css",
+    "static/js/main.a1259582.chunk.js"
   ]
 }
