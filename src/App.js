@@ -127,6 +127,7 @@ const AccountWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
+
 const AccountText = styled.div`
   position: absolute;
   font-weight: 500;
@@ -135,12 +136,15 @@ const AccountText = styled.div`
   letter-spacing: 2px;
 `
 
-const FrameImage = styled.img`
-  width: 300px;
-`
 const InfoText = styled.div`
   font-size: 1rem;
   color: red;
+  text-align: center;
+`
+
+const SuccessText = styled.div`
+  font-size: 1rem;
+  color: green;
   text-align: center;
 `
 
@@ -154,6 +158,7 @@ const connectors = [
 function App() {
   const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(null)
@@ -202,6 +207,9 @@ function App() {
         toast.success('Successfully create account', {
           hideProgressBar: true,
         })
+        setEmail('')
+        setPassword('')
+        setIsSignUp(true)
       }
       setIsLoading(false)
     } catch (error) {
@@ -280,7 +288,8 @@ function App() {
           ) : (
             <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
           )}
-          {account && <InfoText>1 Metamask account can only be linked to 1 Cyball account</InfoText>}
+          {account && !isSignUp && <InfoText>1 Metamask account can only be linked to 1 Cyball account</InfoText>}
+          {account && isSignUp && <SuccessText>Successfully created account</SuccessText>}
         </LoginModal>
       </LoginWrapper>
     </div>
