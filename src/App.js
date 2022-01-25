@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
+import ReactTooltip from 'react-tooltip'
 import { CSSTransition } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -7,7 +8,7 @@ import { API_CYBALL, EMAIL_REGEX } from 'config/constant'
 import useAuth from 'hooks/useAuth'
 import { ConnectorNames } from 'utils/web3React'
 import useWeb3 from 'utils/useWeb3'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LoaderIcon from 'LoaderIcon'
 import backgroundCountDown from 'assets/images/background_countdown.png'
 import loginButtonBackground from 'assets/images/login-button-background.png'
@@ -148,6 +149,8 @@ const SuccessText = styled.div`
   text-align: center;
 `
 
+const PASSWORD_REG = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+
 const connectors = [
   {
     title: 'Metamask',
@@ -175,6 +178,12 @@ function App() {
     return null
   }
 
+  // Clear input when change metamask acc
+  useEffect(() => {
+    setPassword('')
+    setEmail('')
+  }, [account])
+
   const onHandleLogin = async () => {
     try {
       if (!email) {
@@ -186,6 +195,10 @@ function App() {
         setEmailError('Invalid email address')
         return
       }
+      if (!PASSWORD_REG.test(password)) {
+        setPasswordError('Invalid password')
+        return
+      }
 
       if (!password) {
         setPasswordError('Password is required')
@@ -194,13 +207,15 @@ function App() {
       setEmailError(null)
       setPasswordError(null)
       setIsLoading(true)
-      const message = `${email}-${password}`
+      const timestamp = new Date().getTime()
+      const message = `${email}-${timestamp}`
       const signedData = await web3.eth.personal.sign(message, account)
       const result = await axios.post(API_CYBALL, {
         email,
         password,
         address: account,
         signedData,
+        timestamp,
       })
 
       if (result.data) {
@@ -230,7 +245,7 @@ function App() {
         setIsLoading(false)
         return
       }
-      toast.error('Fail to sign up', {
+      toast.error('Your metamask account or your email has been taken', {
         hideProgressBar: true,
       })
       setIsLoading(false)
@@ -269,7 +284,26 @@ function App() {
                   }}
                 />
               </InputWrapper>
-              {passwordError && <ErrorText>{passwordError}</ErrorText>}
+              <ErrorText data-tip data-for="passwordError">
+                {passwordError}
+              </ErrorText>
+              <ReactTooltip id="passwordError" type="error">
+                <span
+                  style={{
+                    fontSize: '10px',
+                  }}
+                >
+                  Password must contain at least
+                  {' '}
+                  <br />
+                  {' '}
+                  one digit, one lower case
+                  {' '}
+                  <br />
+                  {' '}
+                  and one uppercase
+                </span>
+              </ReactTooltip>
               <br />
               <InputWrapper>
                 <Input value={formatAddress(account)} disabled />
