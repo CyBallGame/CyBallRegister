@@ -149,7 +149,7 @@ const SuccessText = styled.div`
   text-align: center;
 `
 
-const PASSWORD_REG = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+const PASSWORD_REG = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}:;<>,.?~_+-=|]).{8,32}$/
 
 const connectors = [
   {
@@ -301,7 +301,14 @@ function App() {
                   {' '}
                   <br />
                   {' '}
-                  and one uppercase
+                  one uppercase
+                  <br />
+                  {' '}
+                  and one special characters * . ! @ $ % ^ &
+                  {'( ) { }'}
+                  : ;
+                  {'< >'}
+                  , . ? ~ _ + - = |
                 </span>
               </ReactTooltip>
               <br />
@@ -322,7 +329,7 @@ function App() {
           ) : (
             <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
           )}
-          {account && !isSignUp && <InfoText>1 Metamask account can only be linked to 1 Cyball account</InfoText>}
+          {account && !isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
           {account && isSignUp && <SuccessText>Successfully created account</SuccessText>}
         </LoginModal>
       </LoginWrapper>
