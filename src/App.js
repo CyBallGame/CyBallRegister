@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip'
 import { CSSTransition } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { API_CYBALL, EMAIL_REGEX } from 'config/constant'
+import { API_CYBALL, EMAIL_REGEX, PASSWORD_REG } from 'config/constant'
 import useAuth from 'hooks/useAuth'
 import { ConnectorNames } from 'utils/web3React'
 import useWeb3 from 'utils/useWeb3'
@@ -158,8 +158,6 @@ const SuccessText = styled.div`
   color: green;
   text-align: center;
 `
-
-const PASSWORD_REG = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}:;<>,.?~_+-=|]).{8,}$/
 
 const connectors = [
   {
