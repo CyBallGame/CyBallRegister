@@ -306,8 +306,14 @@ function App() {
                           fontSize: '10px',
                         }}
                       >
-                        Password must contain at least 8 characters long and contain at least 1 upper case, 1 lower case
-                        alphabet & 1 number & 1 special character
+                        Password must contain:
+                        <ul>
+                          <li>8 characters long</li>
+                          <li>1 upper case</li>
+                          <li>1 lower case alphabet</li>
+                          <li>1 number</li>
+                          <li>1 special character</li>
+                        </ul>
                       </span>
                     </ReactTooltip>
                     <br />
@@ -339,7 +345,9 @@ function App() {
                   <span>
                     Back to
                     {' '}
-                    <a target="_blank" href="https://cyball.com/" rel="noreferrer">Home Page</a>
+                    <a target="_blank" href="https://cyball.com/" rel="noreferrer">
+                      Home Page
+                    </a>
                   </span>
                 </NoticeText>
               </>
