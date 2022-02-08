@@ -143,13 +143,23 @@ const InfoText = styled.div`
   text-align: center;
 `
 
+const NoticeText = styled.div`
+  font-size: 1.2rem;
+  color: #fefefe;
+  text-align: center;
+
+  a {
+    color: #fefefe;
+  }
+`
+
 const SuccessText = styled.div`
   font-size: 1rem;
   color: green;
   text-align: center;
 `
 
-const PASSWORD_REG = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}:;<>,.?~_+-=|]).{8,32}$/
+const PASSWORD_REG = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}:;<>,.?~_+-=|]).{8,}$/
 
 const connectors = [
   {
@@ -256,81 +266,85 @@ function App() {
     <div className="App">
       <LoginWrapper>
         <LoginModal>
-          <TextHeader>Create Cyball Account</TextHeader>
-          <CSSTransition in={!!account} timeout={300} unmountOnExit classNames="fade">
-            <>
-              <InputWrapper>
-                <Input
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => {
-                    if (e) {
-                      setEmail(e.target.value)
-                    }
-                  }}
-                />
-              </InputWrapper>
-              {emailError && <ErrorText>{emailError}</ErrorText>}
-              <br />
-              <InputWrapper>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => {
-                    if (e) {
-                      setPassword(e.target.value)
-                    }
-                  }}
-                />
-              </InputWrapper>
-              <ErrorText data-tip data-for="passwordError">
-                {passwordError}
-              </ErrorText>
-              <ReactTooltip id="passwordError" type="error">
-                <span
-                  style={{
-                    fontSize: '10px',
-                  }}
-                >
-                  Password must contain at least
-                  {' '}
-                  <br />
-                  {' '}
-                  one digit, one lower case
-                  {' '}
-                  <br />
-                  {' '}
-                  one uppercase
-                  <br />
-                  {' '}
-                  and one special characters * . ! @ $ % ^ &
-                  {'( ) { }'}
-                  : ;
-                  {'< >'}
-                  , . ? ~ _ + - = |
-                </span>
-              </ReactTooltip>
-              <br />
-              <InputWrapper>
-                <Input value={formatAddress(account)} disabled />
-              </InputWrapper>
-            </>
-          </CSSTransition>
-          <br />
-          {!account ? (
-            <LoginButton
-              onClick={() => {
-                login(connectors[0].connectorId)
-              }}
-            >
-              <div>Log in Metamask account</div>
-            </LoginButton>
-          ) : (
-            <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
-          )}
-          {account && !isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
-          {account && isSignUp && <SuccessText>Successfully created account</SuccessText>}
+          <>
+            {!isSignUp ? (
+              <>
+                <TextHeader>Create Cyball Account</TextHeader>
+                <CSSTransition in={!!account} timeout={300} unmountOnExit classNames="fade">
+                  <>
+                    <InputWrapper>
+                      <Input
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => {
+                          if (e) {
+                            setEmail(e.target.value)
+                          }
+                        }}
+                      />
+                    </InputWrapper>
+                    {emailError && <ErrorText>{emailError}</ErrorText>}
+                    <br />
+                    <InputWrapper>
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => {
+                          if (e) {
+                            setPassword(e.target.value)
+                          }
+                        }}
+                      />
+                    </InputWrapper>
+                    <ErrorText data-tip data-for="passwordError">
+                      {passwordError}
+                    </ErrorText>
+                    <ReactTooltip id="passwordError" type="error">
+                      <span
+                        style={{
+                          fontSize: '10px',
+                        }}
+                      >
+                        Password must contain at least 8 characters long and contain at least 1 upper case, 1 lower case
+                        alphabet & 1 number & 1 special character
+                      </span>
+                    </ReactTooltip>
+                    <br />
+                    <InputWrapper>
+                      <Input value={formatAddress(account)} disabled />
+                    </InputWrapper>
+                  </>
+                </CSSTransition>
+                <br />
+                {!account ? (
+                  <LoginButton
+                    onClick={() => {
+                      login(connectors[0].connectorId)
+                    }}
+                  >
+                    <div>Log in Metamask account</div>
+                  </LoginButton>
+                ) : (
+                  <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
+                )}
+                {account && !isSignUp && (
+                  <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>
+                )}
+              </>
+            ) : (
+              <>
+                <TextHeader>Sign Up Successfully</TextHeader>
+                <NoticeText>
+                  <span>
+                    Back to
+                    {' '}
+                    <a target="_blank" href="https://cyball.com/" rel="noreferrer">Home Page</a>
+                  </span>
+                </NoticeText>
+              </>
+            )}
+          </>
         </LoginModal>
       </LoginWrapper>
     </div>
