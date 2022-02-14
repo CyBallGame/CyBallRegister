@@ -283,7 +283,7 @@ function App() {
                     </InputWrapper>
                     {emailError && <ErrorText>{emailError}</ErrorText>}
                     <br />
-                    <InputWrapper>
+                    <InputWrapper data-tip data-for="passwordError">
                       <Input
                         type="password"
                         placeholder="Password"
@@ -295,7 +295,7 @@ function App() {
                         }}
                       />
                     </InputWrapper>
-                    <ErrorText data-tip data-for="passwordError">
+                    <ErrorText>
                       {passwordError}
                     </ErrorText>
                     <ReactTooltip id="passwordError" type="error">
