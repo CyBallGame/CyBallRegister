@@ -310,7 +310,6 @@ function App() {
                           <li>1 upper case</li>
                           <li>1 lower case alphabet</li>
                           <li>1 number</li>
-                          <li>1 special character</li>
                         </ul>
                       </span>
                     </ReactTooltip>
