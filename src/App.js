@@ -307,9 +307,9 @@ function App() {
                         Password must contain:
                         <ul>
                           <li>8 characters long</li>
-                          <li>1 upper case</li>
-                          <li>1 lower case alphabet</li>
-                          <li>1 number</li>
+                          <li>at least 1 upper case alphabet</li>
+                          <li>at least 1 lower case alphabet</li>
+                          <li>at least 1 number</li>
                         </ul>
                       </span>
                     </ReactTooltip>
