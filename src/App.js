@@ -172,6 +172,7 @@ function App() {
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [emailError, setEmailError] = useState(null)
   const [passwordError, setPasswordError] = useState(null)
   const { account } = useWeb3React()
@@ -212,6 +213,15 @@ function App() {
         setPasswordError('Password is required')
         return
       }
+
+      if (password !== confirmPassword || !confirmPassword) {
+        toast.error('Please make sure your password match', {
+          hideProgressBar: true,
+        })
+
+        return
+      }
+
       setEmailError(null)
       setPasswordError(null)
       setIsLoading(true)
@@ -298,6 +308,19 @@ function App() {
                     <ErrorText>
                       {passwordError}
                     </ErrorText>
+                    <br />
+                    <InputWrapper>
+                      <Input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => {
+                          if (e) {
+                            setConfirmPassword(e.target.value)
+                          }
+                        }}
+                      />
+                    </InputWrapper>
                     <ReactTooltip id="passwordError" type="error">
                       <span
                         style={{
