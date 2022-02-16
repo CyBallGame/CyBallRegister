@@ -283,6 +283,7 @@ function App() {
                     <InputWrapper>
                       <Input
                         placeholder="Email"
+                        autoComplete="off"
                         value={email}
                         onChange={(e) => {
                           if (e) {
@@ -296,6 +297,7 @@ function App() {
                     <InputWrapper data-tip data-for="passwordError">
                       <Input
                         type="password"
+                        autoComplete="off"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => {
@@ -312,6 +314,7 @@ function App() {
                     <InputWrapper>
                       <Input
                         type="password"
+                        autoComplete="off"
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={(e) => {
