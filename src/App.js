@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { API_CYBALL, EMAIL_REGEX, PASSWORD_REG } from 'config/constant'
@@ -78,8 +78,8 @@ const LoginModal = styled.div`
   background-size: contain;
   justify-content: center;
   background-position: center;
-  padding: 0px 100px;
-  height: 450px;
+  padding: 0px 30px;
+  height: 550px;
   width: 400px;
 
   @media (max-width: 576px) {
@@ -119,24 +119,6 @@ const ErrorText = styled.div`
   width: 300px;
   bottom: 2px;
 `
-
-const AccountWrapper = styled.div`
-  position: relative;
-  display: flex;
-  width: 300px;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-`
-
-const AccountText = styled.div`
-  position: absolute;
-  font-weight: 500;
-  font-size: 1.7rem;
-  color: #e0e0e0;
-  letter-spacing: 2px;
-`
-
 const InfoText = styled.div`
   font-size: 1rem;
   color: red;
@@ -164,10 +146,18 @@ const connectors = [
     title: 'Metamask',
     connectorId: ConnectorNames.Injected,
   },
+  {
+    title: 'WalletConnect',
+    connectorId: ConnectorNames.WalletConnect,
+  },
+  {
+    title: 'Binance Wallet',
+    connectorId: ConnectorNames.BSC,
+  },
 ]
 
 function App() {
-  const { login } = useAuth()
+  const { login, logout } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
@@ -192,6 +182,10 @@ function App() {
     setPassword('')
     setEmail('')
   }, [account])
+
+  const onHandleLogout = () => {
+    logout()
+  }
 
   const onHandleLogin = async () => {
     try {
@@ -278,7 +272,7 @@ function App() {
             {!isSignUp ? (
               <>
                 <TextHeader>Create Cyball Account</TextHeader>
-                <CSSTransition in={!!account} timeout={300} unmountOnExit classNames="fade">
+                {account ? (
                   <>
                     <InputWrapper>
                       <Input
@@ -307,9 +301,7 @@ function App() {
                         }}
                       />
                     </InputWrapper>
-                    <ErrorText>
-                      {passwordError}
-                    </ErrorText>
+                    <ErrorText>{passwordError}</ErrorText>
                     <br />
                     <InputWrapper>
                       <Input
@@ -343,20 +335,38 @@ function App() {
                     <InputWrapper>
                       <Input value={formatAddress(account)} disabled />
                     </InputWrapper>
+                    <br />
+                    <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
+                    <LoginButton onClick={onHandleLogout}>
+                      <div>Log out</div>
+                    </LoginButton>
                   </>
-                </CSSTransition>
-                <br />
-                {!account ? (
-                  <LoginButton
-                    onClick={() => {
-                      login(connectors[0].connectorId)
-                    }}
-                  >
-                    <div>Log in Metamask account</div>
-                  </LoginButton>
                 ) : (
-                  <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
+                  <>
+                    <LoginButton
+                      onClick={() => {
+                        login(connectors[0].connectorId)
+                      }}
+                    >
+                      <div>Log in Metamask</div>
+                    </LoginButton>
+                    <LoginButton
+                      onClick={() => {
+                        login(connectors[1].connectorId)
+                      }}
+                    >
+                      <div>Log in WalletConnect</div>
+                    </LoginButton>
+                    <LoginButton
+                      onClick={() => {
+                        login(connectors[2].connectorId)
+                      }}
+                    >
+                      <div>Log in BinanceWallet</div>
+                    </LoginButton>
+                  </>
                 )}
+                <br />
                 {account && !isSignUp && (
                   <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>
                 )}
