@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
-import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import { SwitchTransition, Transition } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { API_CYBALL, EMAIL_REGEX, PASSWORD_REG } from 'config/constant'
@@ -66,8 +66,13 @@ const LoginButton = styled.div`
     font-weight: 700;
   }
 `
+const FadeDiv = styled.div`
+  transition: 0.3s;
+  opacity: ${({ state }) => (state === 'entered' ? 1 : 0)};
+  display: ${({ state }) => (state === 'exited' ? 'none' : 'block')};
+`
 
-const LoginModal = styled.div`
+const LoginModal = styled.div`p>
   margin: 0 auto;
   z-index: 1000;
   display: flex;
@@ -87,6 +92,12 @@ const LoginModal = styled.div`
     height: 500px;
     padding: 0px;
   }
+`
+const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `
 
 const InputWrapper = styled.div`
@@ -155,6 +166,10 @@ const connectors = [
     connectorId: ConnectorNames.BSC,
   },
 ]
+
+const FadeTransition = ({ children, ...rest }) => (
+  <Transition {...rest}>{(state) => <FadeDiv state={state}>{children}</FadeDiv>}</Transition>
+)
 
 function App() {
   const { login, logout } = useAuth()
@@ -268,124 +283,128 @@ function App() {
     <div className="App">
       <LoginWrapper>
         <LoginModal>
-          <>
-            {!isSignUp ? (
-              <>
-                <TextHeader>Create Cyball Account</TextHeader>
-                {account ? (
-                  <>
-                    <InputWrapper>
-                      <Input
-                        placeholder="Email"
-                        autoComplete="off"
-                        value={email}
-                        onChange={(e) => {
-                          if (e) {
-                            setEmail(e.target.value)
-                          }
-                        }}
-                      />
-                    </InputWrapper>
-                    {emailError && <ErrorText>{emailError}</ErrorText>}
-                    <br />
-                    <InputWrapper data-tip data-for="passwordError">
-                      <Input
-                        type="password"
-                        autoComplete="off"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => {
-                          if (e) {
-                            setPassword(e.target.value)
-                          }
-                        }}
-                      />
-                    </InputWrapper>
-                    <ErrorText>{passwordError}</ErrorText>
-                    <br />
-                    <InputWrapper>
-                      <Input
-                        type="password"
-                        autoComplete="off"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => {
-                          if (e) {
-                            setConfirmPassword(e.target.value)
-                          }
-                        }}
-                      />
-                    </InputWrapper>
-                    <ReactTooltip id="passwordError" type="error">
-                      <span
-                        style={{
-                          fontSize: '10px',
+          {!isSignUp ? (
+            <>
+              <SwitchTransition mode="out-in">
+                <FadeTransition key={account ? 'bar' : 'foo'} timeout={250} unmountOnExit mountOnEnter>
+                  {account ? (
+                    <ContentWrapper>
+                      <TextHeader>Create Cyball Account</TextHeader>
+                      <InputWrapper>
+                        <Input
+                          placeholder="Email"
+                          autoComplete="off"
+                          value={email}
+                          onChange={(e) => {
+                            if (e) {
+                              setEmail(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      {emailError && <ErrorText>{emailError}</ErrorText>}
+                      <br />
+                      <InputWrapper data-tip data-for="passwordError">
+                        <Input
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => {
+                            if (e) {
+                              setPassword(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      <ErrorText>{passwordError}</ErrorText>
+                      <br />
+                      <InputWrapper>
+                        <Input
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Confirm Password"
+                          value={confirmPassword}
+                          onChange={(e) => {
+                            if (e) {
+                              setConfirmPassword(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      <ReactTooltip id="passwordError" type="error">
+                        <span
+                          style={{
+                            fontSize: '10px',
+                          }}
+                        >
+                          Password must contain:
+                          <ul>
+                            <li>8 characters long</li>
+                            <li>at least 1 upper case alphabet</li>
+                            <li>at least 1 lower case alphabet</li>
+                            <li>at least 1 number</li>
+                          </ul>
+                        </span>
+                      </ReactTooltip>
+                      <br />
+                      <InputWrapper>
+                        <Input value={formatAddress(account)} disabled />
+                      </InputWrapper>
+                      <br />
+                      <LoginButton onClick={onHandleLogin}>
+                        {isLoading ? <LoaderIcon /> : <div>Sign up</div>}
+                      </LoginButton>
+                      <LoginButton onClick={onHandleLogout}>
+                        <div>Log out</div>
+                      </LoginButton>
+                      {!isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
+                    </ContentWrapper>
+                  ) : (
+                    <ContentWrapper>
+                      <TextHeader>Create Cyball Account</TextHeader>
+                      <LoginButton
+                        onClick={() => {
+                          login(connectors[0].connectorId)
                         }}
                       >
-                        Password must contain:
-                        <ul>
-                          <li>8 characters long</li>
-                          <li>at least 1 upper case alphabet</li>
-                          <li>at least 1 lower case alphabet</li>
-                          <li>at least 1 number</li>
-                        </ul>
-                      </span>
-                    </ReactTooltip>
-                    <br />
-                    <InputWrapper>
-                      <Input value={formatAddress(account)} disabled />
-                    </InputWrapper>
-                    <br />
-                    <LoginButton onClick={onHandleLogin}>{isLoading ? <LoaderIcon /> : <div>Sign up</div>}</LoginButton>
-                    <LoginButton onClick={onHandleLogout}>
-                      <div>Log out</div>
-                    </LoginButton>
-                  </>
-                ) : (
-                  <>
-                    <LoginButton
-                      onClick={() => {
-                        login(connectors[0].connectorId)
-                      }}
-                    >
-                      <div>Log in Metamask</div>
-                    </LoginButton>
-                    <LoginButton
-                      onClick={() => {
-                        login(connectors[1].connectorId)
-                      }}
-                    >
-                      <div>Log in WalletConnect</div>
-                    </LoginButton>
-                    <LoginButton
-                      onClick={() => {
-                        login(connectors[2].connectorId)
-                      }}
-                    >
-                      <div>Log in BinanceWallet</div>
-                    </LoginButton>
-                  </>
-                )}
-                <br />
-                {account && !isSignUp && (
-                  <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>
-                )}
-              </>
-            ) : (
-              <>
-                <TextHeader>Sign Up Successfully</TextHeader>
-                <NoticeText>
-                  <span>
-                    Back to
-                    {' '}
-                    <a target="_blank" href="https://cyball.com/" rel="noreferrer">
-                      Home Page
-                    </a>
-                  </span>
-                </NoticeText>
-              </>
-            )}
-          </>
+                        <div>Log in Metamask</div>
+                      </LoginButton>
+                      <LoginButton
+                        onClick={() => {
+                          login(connectors[1].connectorId)
+                        }}
+                      >
+                        <div>Log in WalletConnect</div>
+                      </LoginButton>
+                      <LoginButton
+                        onClick={() => {
+                          login(connectors[2].connectorId)
+                        }}
+                      >
+                        <div>Log in BinanceWallet</div>
+                      </LoginButton>
+                    </ContentWrapper>
+                  )}
+                </FadeTransition>
+              </SwitchTransition>
+
+              <br />
+            </>
+          ) : (
+            <>
+              <TextHeader>Sign Up Successfully</TextHeader>
+              <NoticeText>
+                <span>
+                  Back to
+                  {' '}
+                  <a target="_blank" href="https://cyball.com/" rel="noreferrer">
+                    Home Page
+                  </a>
+                </span>
+              </NoticeText>
+            </>
+          )}
         </LoginModal>
       </LoginWrapper>
     </div>
