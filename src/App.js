@@ -471,7 +471,7 @@ function App() {
                 <span>
                   Back to
                   <a target="_blank" href="https://cyball.com/" rel="noreferrer">
-                    Home Page
+                    &nbsp;Home Page
                   </a>
                 </span>
               </NoticeText>
