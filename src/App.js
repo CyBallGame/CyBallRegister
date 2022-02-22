@@ -145,8 +145,9 @@ const NoticeText = styled.div`
   }
 `
 const ForgotPasswordText = styled.div`
-  font-size: 1rem;
+  font-size: 1.6rem;
   color: #7979f7;
+  font-weight: 700;
   margin-bottom: 10px;
 
   &:hover {
@@ -327,115 +328,108 @@ function App() {
             <>
               <SwitchTransition mode="out-in">
                 <FadeTransition key={account || isForgotPassword} timeout={250} unmountOnExit mountOnEnter>
-                  {account ? (
-                    isForgotPassword ? (
-                      <ContentWrapper>
-                        <TextHeader>Forgot Password</TextHeader>
-                        <Text>Please enter your registered email address below.</Text>
-                        <InputWrapper>
-                          <Input
-                            placeholder="Email"
-                            autoComplete="off"
-                            value={emailReset}
-                            onChange={(e) => {
-                              if (e) {
-                                setEmailReset(e.target.value)
-                              }
-                            }}
-                          />
-                        </InputWrapper>
-                        {emailResetError && <ErrorText>{emailResetError}</ErrorText>}
-                        <br />
-                        <LoginButton onClick={onHandleResetPassword}>
-                          {isLoading ? <LoaderIcon /> : <div>Request reset link</div>}
-                        </LoginButton>
-                        <LoginButton
-                          onClick={() => {
-                            setIsForgotPassword(false)
+                  {isForgotPassword ? (
+                    <ContentWrapper>
+                      <TextHeader>Forgot Password</TextHeader>
+                      <Text>Please enter your registered email address below.</Text>
+                      <InputWrapper>
+                        <Input
+                          placeholder="Email"
+                          autoComplete="off"
+                          value={emailReset}
+                          onChange={(e) => {
+                            if (e) {
+                              setEmailReset(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      {emailResetError && <ErrorText>{emailResetError}</ErrorText>}
+                      <br />
+                      <LoginButton onClick={onHandleResetPassword}>
+                        {isLoading ? <LoaderIcon /> : <div>Reset</div>}
+                      </LoginButton>
+                      <LoginButton
+                        onClick={() => {
+                          setIsForgotPassword(false)
+                        }}
+                      >
+                        <div>Cancel</div>
+                      </LoginButton>
+                    </ContentWrapper>
+                  ) : account ? (
+                    <ContentWrapper>
+                      <TextHeader>Create Cyball Account</TextHeader>
+                      <InputWrapper>
+                        <Input
+                          placeholder="Email"
+                          autoComplete="off"
+                          value={email}
+                          onChange={(e) => {
+                            if (e) {
+                              setEmail(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      {emailError && <ErrorText>{emailError}</ErrorText>}
+                      <br />
+                      <InputWrapper data-tip data-for="passwordError">
+                        <Input
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => {
+                            if (e) {
+                              setPassword(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      <ErrorText>{passwordError}</ErrorText>
+                      <br />
+                      <InputWrapper>
+                        <Input
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Confirm Password"
+                          value={confirmPassword}
+                          onChange={(e) => {
+                            if (e) {
+                              setConfirmPassword(e.target.value)
+                            }
+                          }}
+                        />
+                      </InputWrapper>
+                      <ReactTooltip id="passwordError" type="error">
+                        <span
+                          style={{
+                            fontSize: '10px',
                           }}
                         >
-                          <div>Back</div>
-                        </LoginButton>
-                      </ContentWrapper>
-                    ) : (
-                      <ContentWrapper>
-                        <TextHeader>Create Cyball Account</TextHeader>
-                        <InputWrapper>
-                          <Input
-                            placeholder="Email"
-                            autoComplete="off"
-                            value={email}
-                            onChange={(e) => {
-                              if (e) {
-                                setEmail(e.target.value)
-                              }
-                            }}
-                          />
-                        </InputWrapper>
-                        {emailError && <ErrorText>{emailError}</ErrorText>}
-                        <br />
-                        <InputWrapper data-tip data-for="passwordError">
-                          <Input
-                            type="password"
-                            autoComplete="off"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => {
-                              if (e) {
-                                setPassword(e.target.value)
-                              }
-                            }}
-                          />
-                        </InputWrapper>
-                        <ErrorText>{passwordError}</ErrorText>
-                        <br />
-                        <InputWrapper>
-                          <Input
-                            type="password"
-                            autoComplete="off"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => {
-                              if (e) {
-                                setConfirmPassword(e.target.value)
-                              }
-                            }}
-                          />
-                        </InputWrapper>
-                        <ReactTooltip id="passwordError" type="error">
-                          <span
-                            style={{
-                              fontSize: '10px',
-                            }}
-                          >
-                            Password must contain:
-                            <ul>
-                              <li>8 characters long</li>
-                              <li>at least 1 upper case alphabet</li>
-                              <li>at least 1 lower case alphabet</li>
-                              <li>at least 1 number</li>
-                            </ul>
-                          </span>
-                        </ReactTooltip>
-                        <br />
-                        <InputWrapper>
-                          <Input value={formatAddress(account)} disabled />
-                        </InputWrapper>
-                        <br />
-                        <LoginButton onClick={onHandleLogin}>
-                          {isLoading ? <LoaderIcon /> : <div>Sign up</div>}
-                        </LoginButton>
-                        <LoginButton onClick={onHandleLogout}>
-                          <div>Log out</div>
-                        </LoginButton>
-                        <ForgotPasswordText onClick={() => setIsForgotPassword(true)}>
-                          Forgot your password ?
-                        </ForgotPasswordText>
-                        {!isSignUp && (
-                          <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>
-                        )}
-                      </ContentWrapper>
-                    )
+                          Password must contain:
+                          <ul>
+                            <li>8 characters long</li>
+                            <li>at least 1 upper case alphabet</li>
+                            <li>at least 1 lower case alphabet</li>
+                            <li>at least 1 number</li>
+                          </ul>
+                        </span>
+                      </ReactTooltip>
+                      <br />
+                      <InputWrapper>
+                        <Input value={formatAddress(account)} disabled />
+                      </InputWrapper>
+                      <br />
+                      <LoginButton onClick={onHandleLogin}>
+                        {isLoading ? <LoaderIcon /> : <div>Sign up</div>}
+                      </LoginButton>
+                      <LoginButton onClick={onHandleLogout}>
+                        <div>Log out</div>
+                      </LoginButton>
+                      {!isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
+                    </ContentWrapper>
                   ) : (
                     <ContentWrapper>
                       <TextHeader>Create Cyball Account</TextHeader>
@@ -460,6 +454,9 @@ function App() {
                       >
                         <div>Log in BinanceWallet</div>
                       </LoginButton>
+                      <ForgotPasswordText onClick={() => setIsForgotPassword(true)}>
+                        Forgot your password ?
+                      </ForgotPasswordText>
                     </ContentWrapper>
                   )}
                 </FadeTransition>
