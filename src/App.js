@@ -449,10 +449,29 @@ function App() {
                       </LoginButton>
                       <LoginButton
                         onClick={() => {
-                          login(connectors[2].connectorId)
+                          if (window.BinanceChain) {
+                            login(connectors[2].connectorId)
+                          } else {
+                            toast.error('No Binance Wallet', {
+                              hideProgressBar: true,
+                            })
+                          }
                         }}
                       >
                         <div>Log in BinanceWallet</div>
+                      </LoginButton>
+                      <LoginButton
+                        onClick={() => {
+                          if (window.ethereum && window.ethereum.isCoin98 && window.ethereum.isCoin98 === true) {
+                            login(connectors[0].connectorId)
+                          } else {
+                            toast.error('No Coin98 Wallet', {
+                              hideProgressBar: true,
+                            })
+                          }
+                        }}
+                      >
+                        <div>Log in Coin98 Wallet</div>
                       </LoginButton>
                       <ForgotPasswordText onClick={() => setIsForgotPassword(true)}>
                         Forgot your password ?
