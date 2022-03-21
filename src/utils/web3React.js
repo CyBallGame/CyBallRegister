@@ -1,6 +1,7 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { BscConnector } from '@binance-chain/bsc-connector'
+import { CHAIN_CONFIG } from 'config/constant'
 
 export const ConnectorNames = {
   Injected: 'injected',
@@ -18,9 +19,9 @@ const walletconnect = new WalletConnectConnector({
   qrcode: true,
   pollingInterval: POLLING_INTERVAL,
 })
-const chainIds = [56, 89]
-const bscConnector = new BscConnector({ supportedChainIds: chainIds })
-export const injected = new InjectedConnector({ supportedChainIds: chainIds })
+
+const bscConnector = new BscConnector({ supportedChainIds: [CHAIN_CONFIG.SUPPORTED_CHAINID] })
+export const injected = new InjectedConnector({ supportedChainIds: [CHAIN_CONFIG.SUPPORTED_CHAINID] })
 
 export const connectorsByName = {
   [ConnectorNames.Injected]: injected,

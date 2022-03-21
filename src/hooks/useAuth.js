@@ -13,6 +13,7 @@ import {
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
 import { connectorsByName, connectorLocalStorageKey } from 'utils/web3React'
+import { setupNetwork } from 'utils/wallet'
 
 const useAuth = () => {
   const { activate, deactivate, chainId } = useWeb3React()
@@ -32,14 +33,14 @@ const useAuth = () => {
       activate(connector, async (error) => {
         if (error instanceof UnsupportedChainIdError) {
           if (connector instanceof InjectedConnector && window.ethereum.isMetaMask) {
-            activate(connector)
-            // const hasSetup = await setupNetwork()
-            // if (hasSetup) {
-            // } else {
-            //   toast.error('Wrong Network!', {
-            //     hideProgressBar: true,
-            //   })
-            // }
+            const hasSetup = await setupNetwork()
+            if (hasSetup) {
+              activate(connector)
+            } else {
+              toast.error('Wrong Network!', {
+                hideProgressBar: true,
+              })
+            }
           } else {
             toast.error('Wrong Network!', {
               hideProgressBar: true,
