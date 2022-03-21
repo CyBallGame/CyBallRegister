@@ -32,14 +32,14 @@ const useAuth = () => {
       activate(connector, async (error) => {
         if (error instanceof UnsupportedChainIdError) {
           if (connector instanceof InjectedConnector && window.ethereum.isMetaMask) {
-            const hasSetup = await setupNetwork()
-            if (hasSetup) {
-              activate(connector)
-            } else {
-              toast.error('Wrong Network!', {
-                hideProgressBar: true,
-              })
-            }
+            activate(connector)
+            // const hasSetup = await setupNetwork()
+            // if (hasSetup) {
+            // } else {
+            //   toast.error('Wrong Network!', {
+            //     hideProgressBar: true,
+            //   })
+            // }
           } else {
             toast.error('Wrong Network!', {
               hideProgressBar: true,
