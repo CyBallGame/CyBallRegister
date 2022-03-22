@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip'
 import { SwitchTransition, Transition } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { API_CYBALL, EMAIL_REGEX, PASSWORD_REG } from 'config/constant'
+import configs from 'configurations'
 import useAuth from 'hooks/useAuth'
 import { ConnectorNames } from 'utils/web3React'
 import useWeb3 from 'utils/useWeb3'
@@ -221,13 +221,13 @@ function App() {
         return
       }
 
-      if (!EMAIL_REGEX.test(emailReset)) {
+      if (!configs.EMAIL_REGEX.test(emailReset)) {
         setEmailResetError('Invalid email address')
         return
       }
 
       setIsLoading(true)
-      const result = await axios.post(`${API_CYBALL}/ForgotPassword`, {
+      const result = await axios.post(`${configs.API_CYBALL}/ForgotPassword`, {
         email: emailReset,
       })
 
@@ -250,11 +250,11 @@ function App() {
         return
       }
 
-      if (!EMAIL_REGEX.test(email)) {
+      if (!configs.EMAIL_REGEX.test(email)) {
         setEmailError('Invalid email address')
         return
       }
-      if (!PASSWORD_REG.test(password)) {
+      if (!configs.PASSWORD_REG.test(password)) {
         setPasswordError('Invalid password')
         return
       }
@@ -278,7 +278,7 @@ function App() {
       const timestamp = new Date().getTime()
       const message = `${email}-${timestamp}`
       const signedData = await web3.eth.personal.sign(message, account)
-      const result = await axios.post(`${API_CYBALL}/SignUp`, {
+      const result = await axios.post(`${configs.API_CYBALL}/SignUp`, {
         email,
         password,
         address: account,
