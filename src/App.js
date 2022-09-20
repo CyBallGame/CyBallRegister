@@ -80,16 +80,16 @@ const LoginModal = styled.div`p>
   align-items: center;
   background-image: url(${loginModalImage});
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   justify-content: center;
   background-position: center;
   padding: 0px 30px;
-  height: 550px;
-  width: 400px;
+  height: 600px;
+  width: 450px;
 
   @media (max-width: 576px) {
-    width: 300px;
-    height: 500px;
+    width: 400px;
+    height: 600px;
     padding: 0px;
   }
 `
@@ -122,6 +122,10 @@ const Input = styled.input`
   border: none;
   background: #22144a;
   clip-path: polygon(15px 0, 100% 0, calc(100% - 6px) 100%, 0% 100%, 0 18px);
+
+  &: focus {
+    outline: none;
+  }
 `
 const ErrorText = styled.div`
   font-size: 0.8rem;
@@ -186,12 +190,14 @@ function App() {
   const [isSignUp, setIsSignUp] = useState(false)
   const [isForgotPassword, setIsForgotPassword] = useState(false)
   const [email, setEmail] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [emailReset, setEmailReset] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [emailError, setEmailError] = useState(null)
   const [emailResetError, setEmailResetError] = useState(null)
   const [passwordError, setPasswordError] = useState(null)
+  const [displayNameError, setDisplayNameError] = useState(null)
   const { account } = useWeb3React()
   const web3 = useWeb3()
 
@@ -250,10 +256,18 @@ function App() {
         return
       }
 
+      if (!displayName) {
+        setDisplayNameError('Nick name is required')
+        return
+      }
+      setDisplayNameError(null)
+
       if (!EMAIL_REGEX.test(email)) {
         setEmailError('Invalid email address')
         return
       }
+      setEmailError(null)
+
       if (!PASSWORD_REG.test(password)) {
         setPasswordError('Invalid password')
         return
@@ -263,6 +277,7 @@ function App() {
         setPasswordError('Password is required')
         return
       }
+      setPasswordError(null)
 
       if (password !== confirmPassword || !confirmPassword) {
         toast.error('Please make sure your password match', {
@@ -272,8 +287,6 @@ function App() {
         return
       }
 
-      setEmailError(null)
-      setPasswordError(null)
       setIsLoading(true)
       const timestamp = new Date().getTime()
       const message = `${email}-${timestamp}`
@@ -358,78 +371,104 @@ function App() {
                       </LoginButton>
                     </ContentWrapper>
                   ) : account ? (
-                    <ContentWrapper>
-                      <TextHeader>Create Cyball Account</TextHeader>
-                      <InputWrapper>
-                        <Input
-                          placeholder="Email"
-                          autoComplete="off"
-                          value={email}
-                          onChange={(e) => {
-                            if (e) {
-                              setEmail(e.target.value)
-                            }
+                    <form onSubmit={(e) => {
+                      e.preventDefault()
+                      onHandleLogin()
+                    }}
+                    >
+                      <ContentWrapper>
+                        <TextHeader>Create Cyball Account</TextHeader>
+                        <InputWrapper>
+                          <Input
+                            placeholder="Email"
+                            autoComplete="off"
+                            value={email}
+                            onChange={(e) => {
+                              if (e) {
+                                setEmail(e.target.value)
+                              }
+                            }}
+                          />
+                        </InputWrapper>
+                        {emailError && <ErrorText>{emailError}</ErrorText>}
+                        <br />
+                        <InputWrapper>
+                          <Input
+                            placeholder="Nick name"
+                            autoComplete="off"
+                            value={displayName}
+                            onChange={(e) => {
+                              if (e) {
+                                setDisplayName(e.target.value)
+                              }
+                            }}
+                          />
+                        </InputWrapper>
+                        {displayNameError && <ErrorText>{displayNameError}</ErrorText>}
+                        <br />
+                        <InputWrapper data-tip data-for="passwordError">
+                          <Input
+                            type="password"
+                            autoComplete="off"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => {
+                              if (e) {
+                                setPassword(e.target.value)
+                              }
+                            }}
+                          />
+                        </InputWrapper>
+                        <ErrorText>{passwordError}</ErrorText>
+                        <br />
+                        <InputWrapper>
+                          <Input
+                            type="password"
+                            autoComplete="off"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => {
+                              if (e) {
+                                setConfirmPassword(e.target.value)
+                              }
+                            }}
+                          />
+                        </InputWrapper>
+                        <ReactTooltip id="passwordError" type="error">
+                          <span
+                            style={{
+                              fontSize: '10px',
+                            }}
+                          >
+                            Password must contain:
+                            <ul>
+                              <li>8 characters long</li>
+                              <li>at least 1 upper case alphabet</li>
+                              <li>at least 1 lower case alphabet</li>
+                              <li>at least 1 number</li>
+                            </ul>
+                          </span>
+                        </ReactTooltip>
+                        <br />
+                        <InputWrapper>
+                          <Input value={formatAddress(account)} disabled />
+                        </InputWrapper>
+                        <br />
+                        <input
+                          type="submit" style={{
+                            visibility: 'hidden',
                           }}
                         />
-                      </InputWrapper>
-                      {emailError && <ErrorText>{emailError}</ErrorText>}
-                      <br />
-                      <InputWrapper data-tip data-for="passwordError">
-                        <Input
-                          type="password"
-                          autoComplete="off"
-                          placeholder="Password"
-                          value={password}
-                          onChange={(e) => {
-                            if (e) {
-                              setPassword(e.target.value)
-                            }
-                          }}
-                        />
-                      </InputWrapper>
-                      <ErrorText>{passwordError}</ErrorText>
-                      <br />
-                      <InputWrapper>
-                        <Input
-                          type="password"
-                          autoComplete="off"
-                          placeholder="Confirm Password"
-                          value={confirmPassword}
-                          onChange={(e) => {
-                            if (e) {
-                              setConfirmPassword(e.target.value)
-                            }
-                          }}
-                        />
-                      </InputWrapper>
-                      <ReactTooltip id="passwordError" type="error">
-                        <span
-                          style={{
-                            fontSize: '10px',
-                          }}
-                        >
-                          Password must contain:
-                          <ul>
-                            <li>8 characters long</li>
-                            <li>at least 1 upper case alphabet</li>
-                            <li>at least 1 lower case alphabet</li>
-                            <li>at least 1 number</li>
-                          </ul>
-                        </span>
-                      </ReactTooltip>
-                      <br />
-                      <InputWrapper>
-                        <Input value={formatAddress(account)} disabled />
-                      </InputWrapper>
-                      <br />
-                      <LoginButton onClick={onHandleLogin}>
-                        {isLoading ? <LoaderIcon /> : <div>Sign up</div>}
-                      </LoginButton>
-                      <LoginButton onClick={onHandleLogout}>
-                        <div>Log out</div>
-                      </LoginButton>
-                      {!isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
-                    </ContentWrapper>
+                        <LoginButton onClick={onHandleLogin}>
+                          {isLoading ? <LoaderIcon /> : <div>Sign up</div>}
+                        </LoginButton>
+                        <LoginButton onClick={onHandleLogout}>
+                          <div>Log out</div>
+                        </LoginButton>
+                        {!isSignUp && <InfoText>One Metamask account can only be linked to one CyBall account</InfoText>}
+                      </ContentWrapper>
+                    </form>
+
                   ) : (
                     <ContentWrapper>
                       <TextHeader>Create Cyball Account</TextHeader>
