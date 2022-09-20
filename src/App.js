@@ -297,6 +297,7 @@ function App() {
         address: account,
         signedData,
         timestamp,
+        nickName: displayName,
       })
 
       if (result.data) {
