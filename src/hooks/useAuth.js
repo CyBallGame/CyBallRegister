@@ -32,14 +32,9 @@ const useAuth = () => {
       activate(connector, async (error) => {
         if (error instanceof UnsupportedChainIdError) {
           if (connector instanceof InjectedConnector && window.ethereum.isMetaMask) {
-            activate(connector)
-            // const hasSetup = await setupNetwork()
-            // if (hasSetup) {
-            // } else {
-            //   toast.error('Wrong Network!', {
-            //     hideProgressBar: true,
-            //   })
-            // }
+            toast.error('Wrong Network!', {
+              hideProgressBar: true,
+            })
           } else {
             toast.error('Wrong Network!', {
               hideProgressBar: true,
@@ -56,9 +51,9 @@ const useAuth = () => {
               hideProgressBar: true,
             })
           } else if (
-            error instanceof UserRejectedRequestErrorInjected
-            || error instanceof UserRejectedRequestErrorWalletConnect
-            || error instanceof UserRejectedRequestError
+            error instanceof UserRejectedRequestErrorInjected ||
+            error instanceof UserRejectedRequestErrorWalletConnect ||
+            error instanceof UserRejectedRequestError
           ) {
             if (connector instanceof WalletConnectConnector) {
               const walletConnector = connector

@@ -47,6 +47,7 @@
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
+    "operator-linebreak": 0,
     "no-undef": 0,
     "no-debugger": "warn",
     "no-underscore-dangle": "off",
